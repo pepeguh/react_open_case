@@ -1,0 +1,8 @@
+*{
+    margin: 0;
+    padding: 0;
+}
+.home_main_div{
+    margin-top: calc(60px );
+    background: #2c1244; 
+}

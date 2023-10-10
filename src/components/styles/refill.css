@@ -1,0 +1,48 @@
+*{
+    color: aliceblue;
+    margin: 0;
+    padding: 0;
+}
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+.refill_main{
+    margin-top: 60px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.refill_main span{
+    margin-top: 100px;
+}
+.refill_main input{
+    font-size: larger;
+    text-align: right;
+    margin-top: 10px;
+    background-color: blueviolet;
+    color: rgb(192, 178, 209);
+    width: 220px;
+    height: 25px;
+    padding-left: 5px;
+}
+.refill_btn{
+    margin-top: 30px;
+    border: none;
+    background-color: transparent;
+    width: 190px;
+    height: 40px;
+    transform: translate(0, -45%) skewX(-17deg);
+    border: 1px solid rgb(77, 0, 128);
+    background:linear-gradient(180deg, rgba(255,255,255,0) 26%, rgba(111,52,182,0.26) 100%);
+}
+.refill_btn:hover{
+    cursor: pointer;
+    border: 1px solid rgb(95, 7, 153);
+    background:linear-gradient(180deg, rgba(255,255,255,0) 16%, rgba(111,52,182,0.96) 100%);
+   
+}

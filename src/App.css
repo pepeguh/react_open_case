@@ -1,0 +1,28 @@
+/* Анимация для слайдов */
+.slider-container {
+  display: flex;
+  overflow: hidden;
+  width: 400px;
+}
+
+.slider-content {
+  display: flex;
+  transition: transform 0.3s ease-in-out;
+}
+
+.slide {
+  min-width: 400px;
+}
+  .btn {
+    background-color: #6200ff;
+    color: #cdf9ff;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+  }
+  .slider{
+    align-items: center;
+    display: flex;
+    justify-content: center;
+    background: radial-gradient(circle, rgba(255,255,255,1) 0%, rgba(200,177,220,0.7177844101123596) 36%, rgba(112,255,239,1) 97%);
+  }

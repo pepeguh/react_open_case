@@ -1,0 +1,80 @@
+a {
+    text-decoration: none;
+}
+
+.home_grid_cases {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 10px;
+}
+@media screen and (max-width: 768px) {
+    .home_grid_cases {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+@media screen and (max-width: 576px) {
+    .home_grid_cases {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+@media screen and (max-width: 471px) {
+    .home_grid_cases {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+
+
+
+.grid_case {
+    padding: 10px 0 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    text-align: center;
+    border-bottom: 2px solid #23192c;
+    cursor: pointer;
+  
+    align-items: center;
+    
+}
+
+.grid_case:hover {
+    border-bottom: 2px solid #4f098d;
+    /* box-shadow: 0 10px #8e0cff0c; */
+
+}
+
+.case_img {
+    width: 150px;
+}
+
+.case_scale {
+    transition: transform 0.2s;
+    transform: scale(1);
+}
+
+.case_scale:hover {
+    transition: transform 0.2s;
+    transform: scale(1.1);
+}
+
+
+.case_price {
+    
+    
+    width: fit-content;
+    color: #13ff33;
+
+}
+
+.price_RUB::after {
+    content: "₽";
+    margin-left: 1px;
+
+
+}
+
+.case_name {
+    color: aliceblue;
+}
