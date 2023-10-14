@@ -30,6 +30,7 @@ const Profile = ({ skinHistory })=>{
             <div className="profile_skin_details">
             <div className="profile_skin_name">{skin.name}</div>
             <div className="profile_skin_type">{skin.type}</div>
+            <div className="profile_skin_price price_RUB">{skin.price}</div>
             
           </div>
         </div>

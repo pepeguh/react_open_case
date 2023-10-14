@@ -7,6 +7,7 @@ import { setBalance } from '../../redux/actions'; // Импортируем де
 
 const Snakebite = ({ onSkinDrop }) => {
   //    LOGIC
+  const everyUrl = []
   const chances = [
     12.19, 11.598, 11.418, 11.418, 11.418, 11.418, 11.418, 3.19, 3.19, 3.19,
     3.19, 3.19, 1.066, 1.066, 1.066, 0.448, 0.448,
@@ -42,7 +43,7 @@ const Snakebite = ({ onSkinDrop }) => {
     },
     {
       name: "Junk Yard",
-      type: "Револьвер R8",
+      type: "R8 Revolver",
       src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpopL-zJAt21uH3di59_oSJhpWYg_z9PbzummJW4NFOhujT8om73Qbg_kJrazqlLILAc1RoaQzX_QTsxr_s0MW9tcnIyXoyvSAj5n6JnAv330-b64w-6g",
       rarity:"milspec",
       price:45,
@@ -62,7 +63,7 @@ const Snakebite = ({ onSkinDrop }) => {
       price:50,
     },
     {
-      name: "DEV_TEXTURE",
+      name: "dev_texture",
       type: "Negev",
       src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpouL-iLhFf0Ob3fzhF6cqJkIWdg_LsJ67Dk1Rd4cJ5ntbN9J7yjRq1-xBqNWuld9TEIQ9qZV_TrlbsyLrvgZO-u5rKwXZg6SIq4XnVnEC0n1gSOdjW9rAC",
       rarity:"restricted",
@@ -132,19 +133,104 @@ const Snakebite = ({ onSkinDrop }) => {
       price:5450,
     },
   ];
-  const skinRev = [...skins].reverse()
+  
   const [showBtn, setShowBtn] = useState(false);
   const [isImgVisible, setImgVisible] = useState(true);
   const [prise, setPrise] = useState(null);
   const [drop, setDrop] = useState([]);
+  // const[tryPrices, setTryPrices] = useState([])
 
+
+  const [skinRev, setSkinRev] = useState([...skins].reverse());
+  let tryPrices=[];
   const casePrice = 139;
   const dispatch = useDispatch(); // Получаем диспетчер Redux
   const balance = useSelector((state) => state.balance); // Получаем баланс из состояния Redux
 
+  // ELSE 100 TRY
+const baseUrl = 'https://steamcommunity.com/market/priceoverview/?currency=5&appid=730&market_hash_name='
+const itemUrl = "http://localhost:3001/get-item-price";
+
+
+
+
+  async function fetchData() {
+    const prices = await fetchPrices();
+    tryPrices=prices; // Обновите состояние с полученными ценами
+    for (let i = 0; i < skins.length; i++) {
+      skins[i].price = tryPrices[i];
+    }
+    skins.forEach(skin => {
+    skin.price=skin.price.slice(0, -5)
+   });
+    setSkinRev([...skins].reverse())
+ 
+  console.log(skins)
+  console.log(tryPrices)
+  }
+ 
+
+const getUrlForEverySkin = ()=>{
+  let itemNameInside=''
+  skins.forEach((item)=>{
+    if(item.name.split(' ').length>1){
+      itemNameInside=item.name.split(' ').join('%20')
+      everyUrl.push(baseUrl+item.type+'%20%7C%20'+itemNameInside+'%20%28Factory%20New%29')
+    }else{
+      everyUrl.push(baseUrl+item.type+'%20%7C%20'+item.name+'%20%28Factory%20New%29')
+    }
+  })
+
+  console.log(everyUrl)
+}
+
+async function fetchPrices() {
+  getUrlForEverySkin()
+  const promises = everyUrl.map(async (url) => {
+    try {
+      const response = await fetch(`${itemUrl}/${encodeURIComponent(url)}`);
+      if (response.ok) {
+        const data = await response.json();
+        return data.lowest_price;
+      } else {
+        console.error("Не удалось получить данные. Код ошибки:", response.status);
+        return null;
+      }
+    } catch (error) {
+      console.error("Произошла ошибка при запросе данных:", error);
+      return null;
+    }
+  });
+
+  const results = await Promise.all(promises);
+
+  return results;
+}
+
+
+// async function fetchPrices(){
+//   getUrlForEverySkin()
+//   for(let url of everyUrl){
+//     try {
+//       const response = await fetch(`${itemUrl}/${encodeURIComponent(url)}`);
+//       if (response.ok) {
+//         const data = await response.json();
+//         newPrices.push(data.lowest_price)
+//       } else {
+//         console.error("Не удалось получить данные. Код ошибки:", response.status);
+//         newPrices.push(null);
+//       }
+//     } catch (error) {
+//       console.error("Произошла ошибка при запросе данных:", error);
+//       newPrices.push(null);
+//     }
+//   }
+// }
+// end of try
+
   const openCase = () => {
     //главный скин
-   
+    fetchData();
     setImgVisible(!isImgVisible);
     const ranges = generateRanges(chances);
     const rangeIndex = findRangeIndex(ranges, randNum);
@@ -164,10 +250,8 @@ const Snakebite = ({ onSkinDrop }) => {
      console.log(updatedDrop)
      onSkinDrop(updatedDrop[37])
    
-
-     
-    
     console.log(`Вам выпал скин - ${selectedPrise.type} | ${selectedPrise.name} `);
+    console.log(tryPrices)
   };
    const audioRef = useRef(null);
  
@@ -277,8 +361,9 @@ const Snakebite = ({ onSkinDrop }) => {
         </div>
        
         <div className="case_skins">
+        
         {skinRev.map((skin)=>(
-             <div className={`skin ${skin.rarity}`}>
+             <div key={`${skin.name}`} className={`skin ${skin.rarity}`}>
              <img src={skin.src}></img>
              <div className="skin_type">{skin.type}</div>
              <div className="skin_name">{skin.name}</div>
@@ -286,8 +371,8 @@ const Snakebite = ({ onSkinDrop }) => {
                <span className="price price_RUB">{skin.price}</span>
              </div>
            </div>
-
-          )) }
+          ))}
+          
         </div>
       </div>
     </div>
