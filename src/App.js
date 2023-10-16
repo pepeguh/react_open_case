@@ -16,6 +16,7 @@ function App() {
     setSkinHistory((prevHistory) => [...prevHistory, skin]);
   };
   return (
+   
     <Provider store={store} >
     <BrowserRouter>
     <div style={{background:'#2c1244',  height:'100vh'}}>
@@ -31,6 +32,7 @@ function App() {
     </div>
     </BrowserRouter>
     </Provider>
+     
   );
 }
 

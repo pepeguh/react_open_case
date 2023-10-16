@@ -1,9 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit';
-import balanceReducer from './reducers';
+import { configureStore } from "@reduxjs/toolkit";
+import rootReducer from "./reducers";
 
 const store = configureStore({
-  reducer: balanceReducer,
-    
-  
+  reducer: rootReducer,
 });
+
 export default store;

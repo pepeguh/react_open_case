@@ -107,6 +107,10 @@
     overflow: hidden; /* Скрывает текст, который не помещается в контейнер */
     text-overflow: ellipsis; 
 }
+.skin_img{
+    padding-inline: 17.5px;
+    align-items: center;
+}
 .skin_price{
     padding-left: 5px;
     padding-bottom: 5px;
@@ -186,10 +190,11 @@
     opacity: 0;
     transform: rotate(20deg);   
 }
-.case_slide_drop_span{
-position: absolute;
-right: 50px;
+
+.case_slide_drop_price{
+margin-top: 5px;
 }
+
 @keyframes fadeInRotate {
     0% {
       opacity: 0;
