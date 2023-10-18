@@ -2,8 +2,7 @@ import React, { useState, useEffect, useRef  } from "react";
 import Audio from '../../sound/openSound.mp3';
 import "../styles/openCase.css";
 import { useDispatch, useSelector } from 'react-redux'; // Импортируем хуки для Redux
-import { setBalance } from '../../redux/actions'; // Импортируем действие
-import { setSkins } from '../../redux/actions'; // Импортируем действие
+import { setBalance, setSkins } from '../../redux/actions'; // Импортируем действие
 
 const Snakebite = ({ onSkinDrop }) => {
   //    LOGIC
@@ -29,7 +28,8 @@ const Snakebite = ({ onSkinDrop }) => {
   const [skinRev, setSkinRev] = useState([...skins].reverse());
   let tryPrices=[];
   const casePrice = 139;
-  
+  let workSkins;
+  let canOpen=balance>=casePrice;
 
 
 
@@ -38,27 +38,39 @@ const baseUrl = 'https://steamcommunity.com/market/priceoverview/?currency=5&app
 const itemUrl = "http://localhost:3001/get-item-price";
 
 
-useEffect(()=>{
+ useEffect(()=>{
   
-},[])
+ },[])
 
   async function fetchData() {
-    if(skins[0].price===1){//если не прокает, тогда идет запрос на сервер
+     workSkins = skins;
+    if(workSkins[0].price===1){//если не прокает, тогда идет запрос на сервер
       const prices = await fetchPrices();
       tryPrices=prices; // Обновите состояние с полученными ценами
-      for (let i = 0; i < skins.length; i++) {
-        skins[i].price = tryPrices[i];
+      if (tryPrices[0]===undefined||tryPrices[1]===undefined){
+        return;
+      }else{
+        for (let i = 0; i < workSkins.length; i++) {
+          workSkins = workSkins.map((skin, i) => {
+            return {
+              ...skin,
+              price: tryPrices[i]
+            };
+          });
+        }
+        workSkins.forEach(skin => {
+        skin.price=skin.price.slice(0, -5)
+       });
+        setSkinRev([...workSkins].reverse())  
+        dispatch(setSkins(workSkins));
+
       }
-      skins.forEach(skin => {
-      skin.price=skin.price.slice(0, -5)
-     });
-      setSkinRev([...skins].reverse())  
     }
     
   console.log(skins)
   console.log(tryPrices)
   }
- 
+  
 
 const getUrlForEverySkin = ()=>{
   let itemNameInside=''
@@ -84,11 +96,12 @@ async function fetchPrices() {
         return data.lowest_price;
       } else {
         console.error("Не удалось получить данные. Код ошибки:", response.status);
-        return ;
+        return;
       }
     } catch (error) {
       console.error("Произошла ошибка при запросе данных:", error);
-      return ;
+      
+      return;
     }
   });
 
@@ -138,10 +151,14 @@ async function fetchPrices() {
      updatedDrop[37]=selectedPrise;
      setDrop(updatedDrop);
      console.log(updatedDrop)
+     
      onSkinDrop(updatedDrop[37])
    
     console.log(`Вам выпал скин - ${selectedPrise.type} | ${selectedPrise.name} `);
     console.log(tryPrices)
+    if(balance<casePrice){
+      canOpen=false;
+    }
   };
    const audioRef = useRef(null);
  
@@ -157,7 +174,9 @@ async function fetchPrices() {
     if(casePrice>balance){//проверка баланса
       return(alert("Недостаточно средств"))
     }
-    dispatch(setBalance((balance-casePrice)));//обновляем баланс
+    
+    const newBalance = balance - casePrice; 
+    dispatch(setBalance(newBalance));//обновляем баланс
     openCase();
     playAudio();
     setTimeout(() => {
@@ -239,13 +258,21 @@ async function fetchPrices() {
         )}
 
         <div className="case_actions_div">
-        {isImgVisible &&
+          {!canOpen && isImgVisible &&
+           <button className="case_actions cantOpen">{`${casePrice}р (Не хватает ${casePrice-balance}р)`}</button>
+
+          }
+          {!canOpen && showBtn &&
+          <button className="case_actions cantOpen">{`${casePrice}р (Не хватает ${casePrice-balance}р)`}</button>
+          
+          }
+        {isImgVisible && canOpen &&
           <button className="case_actions" onClick={skinChoose}>
             Открыть
           </button>}
           <audio ref={audioRef} src={Audio}/>
          
-          {showBtn &&
+          {showBtn && canOpen &&
           <button className="case_actions" onClick={openAgain}>
              Открыть снова</button>}
         </div>

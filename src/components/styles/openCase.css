@@ -39,7 +39,7 @@
 .case_actions {
     margin-top: 20px;
     background: #2c1244;
-    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 31%, rgba(57, 240, 60, 0.4923630617977528) 97%);
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 11%, rgba(57, 240, 60, 0.2923630617977528) 97%);
     
     transform: translate(0, -45%) skewX(-17deg);
     height: 30px;
@@ -141,7 +141,11 @@
     --rarity-color:#5169f2;
     --rarity-gradient:#5169f250;
 }
-
+.cantOpen{
+    cursor: not-allowed;
+    height: 30px;
+    width: fit-content;
+}
 
 .case_slide{
     display: flex;

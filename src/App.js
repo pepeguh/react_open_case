@@ -13,7 +13,7 @@ import Profile from './components/profile';
 function App() {
   const [skinHistory, setSkinHistory] = useState([]);
   const addSkinToHistory = (skin) => {
-    setSkinHistory((prevHistory) => [...prevHistory, skin]);
+    setSkinHistory((prevHistory) => [skin, ...prevHistory]);
   };
   return (
    
@@ -23,7 +23,7 @@ function App() {
     <Header/>
      <Routes>
       <Route path='/refill' element={<Refill/>}/>
-      <Route path='/profile' element={<Profile skinHistory={skinHistory}/>}/>
+      <Route path='/profile' element={<Profile skinHistory={skinHistory} setSkinHistory={setSkinHistory}/>}/>
       <Route path="/home"  element={<Home/>}/>
       <Route path="*"  element={<Home/>}/>
       <Route path="/case/snakebite" element={<Snakebite onSkinDrop={addSkinToHistory}/>} />

@@ -29,6 +29,7 @@
 
 
   .profile_skin_grid {
+    padding-left: 25px;
     background:#2c1244;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Гибкая сетка */
@@ -43,7 +44,14 @@
     border-radius: 5px;
     display: flex;
     flex-direction: column;
+  }
+  .profile_skin_img_container{
     align-items: center;
+    justify-content: center;
+  }
+  .profile_skin_card img{
+    
+    width: 180px;
   }
 
 .covert {
@@ -73,20 +81,47 @@
   
   .profile_skin_details {
     margin-top: 10px;
-    text-align: center;
+    text-align: left;
   }
   
   .profile_skin_name {
     font-weight: bold;
+    
   }
   
   .profile_skin_type {
     color: #888;
+    
   }
-  
+  .profile_skin_price_container{
+    display: inline;
+    display: flex;
+    justify-content: space-between;
+   
+  }
   .profile_skin_price {
+    transform: skewX(-15deg);
+    display: inline-block;
+    padding: 2px;
+    width: fit-content;
+    border: 2px solid var(--rarity-color);
+    text-align: left;
     margin-top: 5px;
-    font-size: 18px;
+    font-size: 15px;
     font-weight: bold;
-    color: #007bff;
+    color: #becddd;
+  }
+  .profile_skin_sell_btn{
+    background-color: transparent;
+    border: none;
+    margin-top: 7px;
+    width: 65px;
+    height: 25px;
+    font-weight: 600;
+    color: aliceblue;
+    cursor: pointer;
+  }
+  .profile_skin_sell_btn:hover{
+    
+    background-color: var(--rarity-gradient);
   }

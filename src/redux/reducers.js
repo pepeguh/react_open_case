@@ -1,7 +1,7 @@
 import { SET_BALANCE, SET_SKINS } from './actions';
 
 const initialState = {
-  balance: 0,
+  balance: 500,
   skins:[
     {
       name: "Oscillator",
