@@ -17,9 +17,12 @@ const Snakebite = ({ onSkinDrop }) => {
   const [prise, setPrise] = useState(null);
   const [drop, setDrop] = useState([]);
 
+  const [pepePrice, setPepePrice] = useState(null)
+
   const dispatch = useDispatch(); // Получаем диспетчер Redux
   const balance = useSelector((state) => state.balance); 
   const skins = useSelector((state)=> state.skins);
+  
   console.log(balance)
   console.log(skins)
   // const[tryPrices, setTryPrices] = useState([])
@@ -30,7 +33,7 @@ const Snakebite = ({ onSkinDrop }) => {
   const casePrice = 139;
   let workSkins;
   let canOpen=balance>=casePrice;
-
+  let newSelectedPrise;
 
 
   // ELSE 100 TRY
@@ -39,7 +42,8 @@ const itemUrl = "http://localhost:3001/get-item-price";
 
 
  useEffect(()=>{
-  
+  fetchData()
+  console.log('сработал юс эффекс')
  },[])
 
   async function fetchData() {
@@ -109,37 +113,114 @@ async function fetchPrices() {
 
   return results;
 }
+ function getUrl(item){
+  let itemNameInside='';
+  let singleUrl='';
+  let itemExterior='';
+  console.log(item)
+  console.log(item.name)
+  if(item.name.split(' ').length>1){
+    itemNameInside=item.name.split(' ').join('%20')
+    if(item.exterior.split(' ').length>1){
+      itemExterior = item.exterior.split(' ').join('%20')
+    }else{
+      itemExterior=item.exterior;
+    }
+    singleUrl=(baseUrl+item.type+'%20%7C%20'+itemNameInside+'%20%28'+itemExterior+'%29')
+  }else{
+    if(item.exterior.split(' ').length>1){
+      itemExterior = item.exterior.split(' ').join('%20')
+    }else{
+      itemExterior=item.exterior;
+    }
+    singleUrl=(baseUrl+item.type+'%20%7C%20'+item.name+'%20%28'+itemExterior+'%29')
+  }
+  return(singleUrl)
+}
 
 
-// async function fetchPrices(){
-//   getUrlForEverySkin()
-//   for(let url of everyUrl){
-//     try {
-//       const response = await fetch(`${itemUrl}/${encodeURIComponent(url)}`);
-//       if (response.ok) {
-//         const data = await response.json();
-//         newPrices.push(data.lowest_price)
-//       } else {
-//         console.error("Не удалось получить данные. Код ошибки:", response.status);
-//         newPrices.push(null);
-//       }
-//     } catch (error) {
-//       console.error("Произошла ошибка при запросе данных:", error);
-//       newPrices.push(null);
-//     }
-//   }
-// }
-// end of try
+async function getExactPrice(item){
   
+  item.url= getUrl(item)
+ 
+
+  const fetchItemPrice  = async (singleUrl) => {
+    try {
+      const response = await fetch(`${itemUrl}/${encodeURIComponent(singleUrl)}`);
+      if (response.ok) {
+        const data = await response.json();
+        return data.lowest_price;
+      } else {
+        console.error("Не удалось получить данные. Код ошибки:", response.status);
+        return 0;
+      }
+    } catch (error) {
+      console.error("Произошла ошибка при запросе данных:", error);
+      return 0;
+    }
+  }
+  
+  let lowest_Price = await fetchItemPrice(item.url);
+  
+  if (typeof lowest_Price === 'string') {
+    lowest_Price = lowest_Price.slice(0, -5);
+  } else {
+    lowest_Price = 0;
+  }
+  
+  return lowest_Price
+}
+
+const getExterior = (pattern)=>{
+  let exterior = 'Factory New';
+  if (pattern <= 0.07) {
+    exterior = 'Factory New';
+  } else if (pattern > 0.07 && pattern <= 0.15) {
+    exterior = 'Minimal Wear';
+  } else if (pattern > 0.15 && pattern <= 0.38) {
+    exterior = 'Field-Tested';
+  } else if (pattern > 0.38 && pattern <= 0.45) {
+    exterior = 'Well-Worn';
+  } else if (pattern > 0.45) {
+    exterior = 'Battle-Scarred';
+  }
+  return exterior
+}
+async function updatePrice (newSelectedPrise){
+    const price = await getExactPrice(newSelectedPrise);
+
+    setPepePrice(price)
+    return price
+  }
+  
+
   const openCase = () => {
     //главный скин
-    fetchData()
+    
+    
     setImgVisible(!isImgVisible);
     const ranges = generateRanges(chances);
     const rangeIndex = findRangeIndex(ranges, randNum);
     //    const matchedRange = matchNumberToChance(randNum, ranges);
     const selectedPrise = skins[rangeIndex];
      setPrise(selectedPrise);
+
+     const prisePattern = Math.random();
+     newSelectedPrise ={
+      ...selectedPrise,
+      exterior:getExterior(prisePattern),
+
+      
+     };
+     
+     updatePrice(newSelectedPrise)
+    //  newSelectedPrise.price = pepePrice;
+     onSkinDrop(newSelectedPrise)
+     console.log(newSelectedPrise)
+    
+     
+    
+
     // остальные 39
      const updatedDrop = [];
      for (let i =0; i<40; i++){
@@ -148,11 +229,11 @@ async function fetchPrices() {
       let rangeIndex1=findRangeIndex(ranges1, randNum1);
       updatedDrop.push(skins[rangeIndex1]);
      }
-     updatedDrop[37]=selectedPrise;
+     updatedDrop[37]=newSelectedPrise;
      setDrop(updatedDrop);
      console.log(updatedDrop)
      
-     onSkinDrop(updatedDrop[37])
+
    
     console.log(`Вам выпал скин - ${selectedPrise.type} | ${selectedPrise.name} `);
     console.log(tryPrices)
@@ -251,7 +332,16 @@ async function fetchPrices() {
           {showBtn &&
            <div className={`case_slide_drop ${drop[37].rarity} `}> 
             <span className="case_slide_drop_title">{drop[37].type} | {drop[37].name}</span>
-            <span className="price price_RUB case_slide_drop_price">{drop[37].price}</span>
+            <span className="case_slide_drop_exterior">{drop[37].exterior}</span>
+
+            {pepePrice === null ? (
+              <span className="price price_RUB case_slide_drop_price">Loading...</span>
+
+            ):(
+              <span className="price price_RUB case_slide_drop_price">{pepePrice}</span>
+
+            )}
+
             <img src={drop[37].src} className={`${drop[37].rarity} show`} alt={drop[37].name}></img>
            </div>}
           </div>
