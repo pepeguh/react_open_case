@@ -30,7 +30,7 @@
 
   .profile_skin_grid {
     padding-left: 25px;
-    background:#2c1244;
+    background:#171717;
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Гибкая сетка */
     gap: 20px;
@@ -56,22 +56,22 @@
 
 .covert {
     --rarity-color:#ff1212;
-    --rarity-gradient:#ff121265;
+    --rarity-gradient:#ff121236;
 }
 
 .classified {
     --rarity-color:#C142DE;
-    --rarity-gradient:#c142de67;
+    --rarity-gradient:#c142de2c;
 }
 
 .restricted {
     --rarity-color:#7F50F6;
-    --rarity-gradient:#7f50f67c;
+    --rarity-gradient:#7f50f63f;
 }
 
 .milspec {
     --rarity-color:#5169f2;
-    --rarity-gradient:#5169f250;
+    --rarity-gradient:#5169f24b;
 }
 
   .profile_skin_card img {
@@ -113,7 +113,7 @@
   }
   .profile_skin_sell_btn{
     background-color: transparent;
-    border: none;
+    border: 1px transparent ;
     margin-top: 7px;
     width: 65px;
     height: 25px;
@@ -123,6 +123,8 @@
   }
   .profile_skin_sell_btn:hover{  
     background-color: var(--rarity-gradient);
+    border-radius: 20%;
+    
   }
 
   .loader {
@@ -141,14 +143,14 @@
   @keyframes shadowPulse {
     33% {
       background: #FFF;
-      box-shadow: -24px 0 #9900ff, 24px 0 #FFF;
+      box-shadow: -24px 0 #444344, 24px 0 #FFF;
     }
     66% {
-      background: #9900ff;
+      background: #363636;
       box-shadow: -24px 0 #FFF, 24px 0 #FFF;
     }
     100% {
       background: #FFF;
-      box-shadow: -24px 0 #FFF, 24px 0 #9900ff;
+      box-shadow: -24px 0 #FFF, 24px 0 #363636;
     }
   }

@@ -32,15 +32,16 @@ a {
     flex-direction: column;
     justify-content: flex-end;
     text-align: center;
-    border-bottom: 2px solid #23192c;
+    border-bottom: 2px solid #383838;
     cursor: pointer;
   
     align-items: center;
-    
+    transition: border-bottom 0.4s;
 }
 
 .grid_case:hover {
-    border-bottom: 2px solid #4f098d;
+    transition: border-bottom 0.4s;
+    border-bottom: 2px solid #cecece;
     /* box-shadow: 0 10px #8e0cff0c; */
 
 }
@@ -64,7 +65,7 @@ a {
     
     
     width: fit-content;
-    color: #13ff33;
+    color: #f9ffc8;
 
 }
 

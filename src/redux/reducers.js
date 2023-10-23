@@ -1,8 +1,8 @@
-import { SET_BALANCE, SET_SKINS } from './actions';
+import { SET_BALANCE, SET_FRACTURE_SKINS, SET_SNAKEBITE_SKINS } from './actions';
 
 const initialState = {
   balance: 500,
-  skins:[
+  snakebite_skins:[
     {
       name: "Oscillator",
       type: "UMP-45",
@@ -123,6 +123,128 @@ const initialState = {
       price:5450,
     },
   ],
+  fracture_skins:[
+    {
+      name: "Ultralight",
+      type: "Negev",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpouL-iLhFf0Ob3fzhF6cqJgYyfhfb4OrzZglRd4cJ5ntbN9J7yjRqy_0Rqa2mgctXBd1U8NArR_1i6l7rq1MO5vcidwCEy7CFwt3mJlkbjn1gSORALg32d",
+      rarity:"milspec",
+      price:1,
+    },
+    {
+      name: "Gnarled",
+      type: "P2000",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpovrG1eVcwg8zJYAJSvozmxL-HmOTgDKzehGdV18l4jeHVyoD0mlOx5UI4azvxdYeRIARsZArX8lbskOrqhZS8uc-byiRiuSMk4neJzUCxiRpSLrs4DPAc4sI",
+      rarity:"milspec",
+      price:30,
+    },
+    {
+      name: "Ol' Rusty",
+      type: "SG 553",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpopb3wflFf1OD3YjoXuY-JhpWYg-7LP7LWnn9u5MRjjeyP9tnxjAzm-0c6Z22hcYDAdA4-Z1HW-VLrk-zphMS6upvNyHZnvnZ042GdwUL6H1mM1A",
+      rarity:"milspec",
+      price:25,
+    },
+    {
+      name: "Mainframe 001",
+      type: "SG 553",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpopamie19f0Ob3Yi5FvISJmYGCmfHmMrbUqWdY781lteXA54vwxgOw_BdkZWindY6VIFBrMgqF_1C6wLjujMDu6J7Lm3tm7HIm4XbbzEOpwUYbzunpojk",
+      rarity:"milspec",
+      price:45,
+    },
+    {
+      name: "Cassette",
+      type: "P250",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpopujwezhjxszYI2gS09-3h5OOg-PxDLfYkWNF18lwmO7Eu9Tw3gay8xBta23xJdTGJ1Q9Zl-F81TvkOi-jZa67pjOz3U16XYl5n7D30vgEiB9r4A",
+      rarity:"milspec",
+      price:25,
+    },
+      {
+      name: "Freight",
+      type: "P90",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpopuP1FABz7OORIQJB49KilYmFkuXLP7LWnn9u5MRjjeyP8ImtjAPj8kBtaz-gJYWTdVQ_Ml7TqAPokOzvh8K6vpvImHJivSFx5GGdwUJl-uhAcw",
+      rarity:"milspec",
+      price:25,
+    },
+      {
+      name: "Runic",
+      type: "PP-Bizon",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpotLO_JAlf1OD3czRY49KJnIWHm-X1Or_UhFRd4cJ5ntbN9J7yjRq3_BI9Z2H0JoCdIAdraVCC-AS5l7zu08C_75Wayyc273Ig4SvZmhW3n1gSOWigl-N3",
+      rarity:"milspec",
+      price:30,
+    },
+      {
+      name: "Monster Call",
+      type: "MAG-7",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpou7uifDhjxszFcDoV09G5mpOfkuXLMLrdmlRd4cJ5ntbN9J7yjRrsqRdqZWnxJtXBIwI5MArY_we5wrvog5Po757MzHBl7yZz5yyImEO3n1gSOSCZljDB",
+      rarity:"restricted",
+      price:180,
+    },
+      {
+      name: "Brother",
+      type: "Tec-9",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpoor-mcjhnwMzcdD4b09ujkZKCm_v1DLfYkWNF18lwmO7Eu9us3gHn_xBsamj3J4CUJ1NtZlHWrwLtlevqgJ61v53JwHQ1vSV07HnD30vgpLbVCkY",
+      rarity:"restricted",
+      price:190,
+    },
+      {
+      name: "Allure",
+      type: "MAC-10",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpou7umeldf0Ob3fDxBvYyJnZOEmPn6MoTdn2xZ_Pp9i_vG8MKl2AC1_xc4NW6mLYWUelVoMw3Z8lW6ybzu1pXutJXBnyZn63Z07SuJgVXp1mZoDeap",
+      rarity:"restricted",
+      price:190,
+    },
+    {
+      name: "Connexion",
+      type: "Galil AR",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgposbupIgthwczPYgJF7dC_mL-bn_jxPbLJqWdY781lteXA54vwxgLm8kNlMm-mI4adIwM4NFDW_VjsyL--jJS-uc-YzXFr6CEn5nbYnhSpwUYbtmvWxUo",
+      rarity:"restricted",
+      price:170,
+    },
+      {
+      name: "Kitbash",
+      type: "MP5-SD",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpou6rwOANf1OD3fC0X_9iJg4GYg_L4MrXVqWdU78Ryk9bN_Iv9nGu4qgE7Nnf6IdTEewQ2NQvSqVi_wbu9jZe1vZTNy3Bk63Er5HbbyUHhh0xFO7A-m7XAHt-G88cu",
+      rarity:"restricted",
+      price:170,
+    },
+      {
+      name: "Tooth Fairy",
+      type: "M4A4",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpou-6kejhjxszFJTwW082jkYWFkfb9IaLummJW4NFOhujT8om7jQGyqUNuYWj3IYKRcFVoaV2Cq1W2xLrn1pXv6snNn3RgsyEr5neInwv330_EUH3GMA",
+      rarity:"classified",
+      price:1110,
+    },
+      {
+      name: "Vogue",
+      type: "Glock-18",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgposbaqKAxf0Ob3djFN79eJkZmOlPj6J7rSglRd4cJ5ntbN9J7yjRqyqURla2GnJdKWJg9oN1nV8we2wLrs1pbotczLnCMw6Ckl4yrflxG1n1gSOanH9nA-",
+      rarity:"classified",
+      price:1180,
+    },
+      {
+      name: "Entombed",
+      type: "XM1014 ",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgporrf0e1Y07PDdTiVPvYznwL-KmuL4Nq_ulGdE7fp9g-7J4bP5iUazrl1tYG72IICSJlM4ZQ6Cq1e5x-zqhsfvu5rImyFq6XUqs3fezRPmiU5LcKUx0sbazufk",
+      rarity:"classified",
+      price:1080,
+    },
+      {
+      name: "Printstream",
+      type: "Desert Eagle",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgposr-kLAtl7PDdTjlH7duJhJKCmePnJ6nUl2Zu5Mx2gv3--Y3nj1H6qUdqazz2IoCVdVJvYlGGqFPtyea6gZ-_uJjPy3tj7HQnsS3cmBHkiQYMMLIjaxhhAw",
+      rarity:"covert",
+      price:12600,
+    },
+    {
+      name: "Legion of Anubis",
+      type: "AK-47",
+      src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpot7HxfDhjxszJemkV0924gYKChMj4OrzZglRd6dd2j6eUp43wiwfgqkM4Z270LIOUcFA6aF7SqFa5yO7tjJLu7sjIzXFnvSkn-z-DyMloWsFc",
+      rarity:"covert",
+      price:2850,
+    }
+
+  ],
 };
 
 const rootReducer = (state = initialState, action) => {
@@ -132,11 +254,16 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         balance: action.payload,
       };
-      case SET_SKINS:
+      case SET_SNAKEBITE_SKINS:
       return {
         ...state,
-        skins: action.payload,
+        snakebite_skins: action.payload,
       };
+      case SET_FRACTURE_SKINS:
+        return{
+          ...state,
+          fracture_skins:action.payload,
+        }
     default:
       return state;
   }

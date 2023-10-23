@@ -18,9 +18,9 @@ code {
   height: 30px;
 }
 ::-webkit-scrollbar-thumb {
-  background-color: #1504244d; /* Цвет полосы прокрутки */
+  background-color: #222222; /* Цвет полосы прокрутки */
   border-radius: 6px; /* Скругление углов полосы прокрутки */
 }
 ::-webkit-scrollbar-track {
-  background-color: #2c1244;
+  background-color: #222222;
 }

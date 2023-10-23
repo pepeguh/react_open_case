@@ -2,7 +2,7 @@ import React, { useState, useEffect, useRef  } from "react";
 import Audio from '../../sound/openSound.mp3';
 import "../styles/openCase.css";
 import { useDispatch, useSelector } from 'react-redux'; // Импортируем хуки для Redux
-import { setBalance, setSkins } from '../../redux/actions'; // Импортируем действие
+import { setBalance, setSnakebiteSkins } from '../../redux/actions'; // Импортируем действие
 
 const Snakebite = ({ onSkinDrop }) => {
   //    LOGIC
@@ -21,7 +21,7 @@ const Snakebite = ({ onSkinDrop }) => {
 
   const dispatch = useDispatch(); // Получаем диспетчер Redux
   const balance = useSelector((state) => state.balance); 
-  const skins = useSelector((state)=> state.skins);
+  const skins = useSelector((state)=> state.snakebite_skins);
   
   console.log(balance)
   console.log(skins)
@@ -66,7 +66,7 @@ const itemUrl = "http://localhost:3001/get-item-price";
         skin.price=skin.price.slice(0, -5)
        });
         setSkinRev([...workSkins].reverse())  
-        dispatch(setSkins(workSkins));
+        dispatch(setSnakebiteSkins(workSkins));
 
       }
     }

@@ -4,6 +4,8 @@ import '../src/App.css'
 import Header from './components/header';
 import Home from './components/home';
 import Snakebite from './components/cases/snakebite'
+import Fracture from './components/cases/fracture'
+
 import Refill from './components/refill';
 import { Provider } from 'react-redux'; 
 import store from './redux/store';
@@ -19,7 +21,7 @@ function App() {
    
     <Provider store={store} >
     <BrowserRouter>
-    <div style={{background:'#2c1244',  height:'100vh'}}>
+    <div style={{background:'#171717',  height:'100vh'}}>
     <Header/>
      <Routes>
       <Route path='/refill' element={<Refill/>}/>
@@ -27,6 +29,7 @@ function App() {
       <Route path="/home"  element={<Home/>}/>
       <Route path="*"  element={<Home/>}/>
       <Route path="/case/snakebite" element={<Snakebite onSkinDrop={addSkinToHistory}/>} />
+      <Route path='/case/fracture' element={<Fracture onSkinDrop={addSkinToHistory}/>}/>
      </Routes>
      {/* <Slider images={images}/> */}
     </div>

@@ -18,7 +18,7 @@ app.get('/get-item-price/:itemUrl', async (req, res) => {
     const data = await response.text();
     res.send(data);
   } catch (error) {
-    console.error('Произошла ошибка при запросе данных:УЦФУЦЦФУ', error);
+    console.error('Произошла ошибка при запросе данных:', error);
     res.status(500).send('Произошла ошибка при запросе данных');
   }
 });
