@@ -2,9 +2,9 @@ import React, { useState, useEffect, useRef  } from "react";
 import Audio from '../../sound/openSound.mp3';
 import "../styles/openCase.css";
 import { useDispatch, useSelector } from 'react-redux'; // Импортируем хуки для Redux
-import { setBalance, setSnakebiteSkins } from '../../redux/actions'; // Импортируем действие
+import { setBalance, setSnakebiteSkins, setProfileHistory } from '../../redux/actions'; // Импортируем действие
 
-const Snakebite = ({ onSkinDrop }) => {
+const Snakebite = () => {
   //    LOGIC
   const everyUrl = []
   const chances = [
@@ -16,6 +16,7 @@ const Snakebite = ({ onSkinDrop }) => {
   const [isImgVisible, setImgVisible] = useState(true);
   const [prise, setPrise] = useState(null);
   const [drop, setDrop] = useState([]);
+  const [isLoading, setIsLoading] = useState(false)
 
   const [pepePrice, setPepePrice] = useState(null)
 
@@ -25,7 +26,6 @@ const Snakebite = ({ onSkinDrop }) => {
   
   console.log(balance)
   console.log(skins)
-  // const[tryPrices, setTryPrices] = useState([])
 
 
   const [skinRev, setSkinRev] = useState([...skins].reverse());
@@ -33,8 +33,8 @@ const Snakebite = ({ onSkinDrop }) => {
   const casePrice = 139;
   let workSkins;
   let canOpen=balance>=casePrice;
-  let newSelectedPrise;
-
+ 
+  const processHistory= useSelector((state)=>state.history_skins); 
 
   // ELSE 100 TRY
 const baseUrl = 'https://steamcommunity.com/market/priceoverview/?currency=5&appid=730&market_hash_name='
@@ -50,7 +50,7 @@ const itemUrl = "http://localhost:3001/get-item-price";
      workSkins = skins;
     if(workSkins[0].price===1){//если не прокает, тогда идет запрос на сервер
       const prices = await fetchPrices();
-      tryPrices=prices; // Обновите состояние с полученными ценами
+      tryPrices=prices; 
       if (tryPrices[0]===undefined||tryPrices[1]===undefined){
         return;
       }else{
@@ -186,41 +186,37 @@ const getExterior = (pattern)=>{
   }
   return exterior
 }
-async function updatePrice (newSelectedPrise){
-    const price = await getExactPrice(newSelectedPrise);
+async function updatePrice (selectedPrise){
+  setIsLoading(true)
+    const prisePattern = getExterior(Math.random());
+    selectedPrise={
+      ...selectedPrise,
+      exterior:prisePattern
+    }
+    const price1 = await getExactPrice(selectedPrise);
 
-    setPepePrice(price)
-    return price
+    selectedPrise={
+      ...selectedPrise,
+     price:price1
+    }
+    let middlewareHistory = [...processHistory]
+    middlewareHistory.push(selectedPrise)
+    dispatch(setProfileHistory(middlewareHistory))
+    setPepePrice(price1)
+    return price1
   }
   
 
-  const openCase = () => {
+   const openCase=  ()=> {
     //главный скин
-    
-    
     setImgVisible(!isImgVisible);
     const ranges = generateRanges(chances);
     const rangeIndex = findRangeIndex(ranges, randNum);
-    //    const matchedRange = matchNumberToChance(randNum, ranges);
     const selectedPrise = skins[rangeIndex];
      setPrise(selectedPrise);
-
-     const prisePattern = Math.random();
-     newSelectedPrise ={
-      ...selectedPrise,
-      exterior:getExterior(prisePattern),
-
-      
-     };
-     
-     updatePrice(newSelectedPrise)
-    //  newSelectedPrise.price = pepePrice;
-     onSkinDrop(newSelectedPrise)
-     console.log(newSelectedPrise)
-    
-     
-    
-
+     updatePrice(selectedPrise)
+     setIsLoading(false)
+    console.log(selectedPrise)
     // остальные 39
      const updatedDrop = [];
      for (let i =0; i<40; i++){
@@ -229,7 +225,7 @@ async function updatePrice (newSelectedPrise){
       let rangeIndex1=findRangeIndex(ranges1, randNum1);
       updatedDrop.push(skins[rangeIndex1]);
      }
-     updatedDrop[37]=newSelectedPrise;
+     updatedDrop[37]=selectedPrise;
      setDrop(updatedDrop);
      console.log(updatedDrop)
      
@@ -334,13 +330,11 @@ async function updatePrice (newSelectedPrise){
             <span className="case_slide_drop_title">{drop[37].type} | {drop[37].name}</span>
             <span className="case_slide_drop_exterior">{drop[37].exterior}</span>
 
-            {pepePrice === null ? (
-              <span className="price price_RUB case_slide_drop_price">Loading...</span>
-
-            ):(
-              <span className="price price_RUB case_slide_drop_price">{pepePrice}</span>
-
-            )}
+            {isLoading == false ?(
+            <span className="price price_RUB case_slide_drop_price">{pepePrice}</span>
+            ) : isLoading==true(
+            <span className="price price_RUB case_slide_drop_price">Loading...</span>
+            ) }
 
             <img src={drop[37].src} className={`${drop[37].rarity} show`} alt={drop[37].name}></img>
            </div>}

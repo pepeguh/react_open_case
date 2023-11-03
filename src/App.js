@@ -28,8 +28,8 @@ function App() {
       <Route path='/profile' element={<Profile skinHistory={skinHistory} setSkinHistory={setSkinHistory}/>}/>
       <Route path="/home"  element={<Home/>}/>
       <Route path="*"  element={<Home/>}/>
-      <Route path="/case/snakebite" element={<Snakebite onSkinDrop={addSkinToHistory}/>} />
-      <Route path='/case/fracture' element={<Fracture onSkinDrop={addSkinToHistory}/>}/>
+      <Route path="/case/snakebite" element={<Snakebite />} />
+      <Route path='/case/fracture' element={<Fracture />}/>
      </Routes>
      {/* <Slider images={images}/> */}
     </div>

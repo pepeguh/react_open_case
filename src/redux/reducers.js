@@ -1,7 +1,8 @@
-import { SET_BALANCE, SET_FRACTURE_SKINS, SET_SNAKEBITE_SKINS } from './actions';
+import { SET_BALANCE, SET_FRACTURE_SKINS, SET_SNAKEBITE_SKINS, SET_PROFILE_HISTORY } from './actions';
 
 const initialState = {
   balance: 500,
+  history_skins:[],
   snakebite_skins:[
     {
       name: "Oscillator",
@@ -147,7 +148,7 @@ const initialState = {
     },
     {
       name: "Mainframe 001",
-      type: "SG 553",
+      type: "SSG 08",
       src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgpopamie19f0Ob3Yi5FvISJmYGCmfHmMrbUqWdY781lteXA54vwxgOw_BdkZWindY6VIFBrMgqF_1C6wLjujMDu6J7Lm3tm7HIm4XbbzEOpwUYbzunpojk",
       rarity:"milspec",
       price:45,
@@ -224,7 +225,7 @@ const initialState = {
     },
       {
       name: "Entombed",
-      type: "XM1014 ",
+      type: "XM1014",
       src: "https://community.akamai.steamstatic.com/economy/image/-9a81dlWLwJ2UUGcVs_nsVtzdOEdtWwKGZZLQHTxDZ7I56KU0Zwwo4NUX4oFJZEHLbXH5ApeO4YmlhxYQknCRvCo04DEVlxkKgporrf0e1Y07PDdTiVPvYznwL-KmuL4Nq_ulGdE7fp9g-7J4bP5iUazrl1tYG72IICSJlM4ZQ6Cq1e5x-zqhsfvu5rImyFq6XUqs3fezRPmiU5LcKUx0sbazufk",
       rarity:"classified",
       price:1080,
@@ -254,6 +255,11 @@ const rootReducer = (state = initialState, action) => {
         ...state,
         balance: action.payload,
       };
+      case SET_PROFILE_HISTORY:
+        return{
+          ...state,
+          history_skins:action.payload,
+        }
       case SET_SNAKEBITE_SKINS:
       return {
         ...state,

@@ -19,11 +19,14 @@
     margin-top: 30px;
     display: block;
     color: aliceblue;
+    font-size: large;
+    font-weight: bold;
+    margin-bottom: 0;
     
 }
 
 .case_title_img {
-    margin-top: 80px;
+    margin-top: 60px;
     
 
 }
@@ -35,7 +38,7 @@
 
 
 .case_actions {
-    margin-top: 20px;
+    margin-top: 30px;
     background: #2c1244;
     background: linear-gradient(180deg, rgba(255, 255, 255, 0) 0%, rgba(255, 255, 255, 0) 11%, rgba(241, 241, 241, 0.292) 97%);
     
@@ -61,19 +64,19 @@
 }
 
 
-@media screen and (max-width: 960px) {
+@media screen and (max-width: 1000px) {
     .case_skins {
         grid-template-columns: repeat(4, 1fr);
     }
 }
 
-@media screen and (max-width: 576px) {
+@media screen and (max-width: 781px) {
     .case_skins {
         grid-template-columns: repeat(3, 1fr);
     }
 }
 
-@media screen and (max-width: 471px) {
+@media screen and (max-width: 600px) {
     .case_skins {
         grid-template-columns: repeat(2, 1fr);
     }
@@ -152,7 +155,7 @@
     width: 900px;
     height: 200px;
     margin-left: 4700px;
-    margin-top: 50px;
+    margin-top: 30px;
     position: relative;
     z-index: 1;
     padding-bottom: 150px;
@@ -219,7 +222,7 @@ margin-top: 5px;
     position: absolute;
     z-index: 5;
     left: 50%;
-    top: 20.8%;
+    top: 14.2%;
     bottom: 0;
     width: 2px; /* Ширина полосы */
     background-color: #b1b1b1; /* Цвет полосы */

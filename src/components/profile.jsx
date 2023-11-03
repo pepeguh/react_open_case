@@ -1,92 +1,21 @@
 import React, { useEffect, useState } from "react";
 import "./styles/profile.css";
 import { useDispatch, useSelector } from 'react-redux'; // Импортируем хуки для Redux
-import { setBalance } from '../redux/actions'; // Импортируем действие
+import { setBalance, setProfileHistory } from '../redux/actions'; // Импортируем действие
+import {BiSolidCoinStack} from 'react-icons/bi'
 
-const Profile = ({ skinHistory, setSkinHistory }) => {
+
+const Profile = () => {
   const dispatch = useDispatch(); 
   const balance = useSelector((state) => state.balance); 
   const profileLink = "https://steamcommunity.com/id/pepeguh/";
   const itemUrl = "http://localhost:3001/get-item-price";
-  const [updHistory, setUpdHistory] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
+  const newSkins = useSelector((state)=>state.history_skins) 
+  const [updHistory, setUpdHistory] = useState([...newSkins].reverse());
+  const [revUpdHistory, setRevUpdHistory] = useState([...updHistory].reverse());
+  let workSkins;
   
-
-  
-useEffect(()=>{
-  console.log('СРАБОТАЛ ЮС ЭФФЕКТ')
-  const fetchData = async () => {
-    setIsLoading(true); 
-
-    if (skinHistory.length >= 1) {
-      
-      
-      const updatedHistory = await processHistoryItems([...skinHistory]);
-      for(let item of updatedHistory ){
-        if(typeof item.price==='string'||typeof item.price==='number'&&item.price!=0){
-
-          item.price = item.price.slice(0, -5)
-        }
-      }
-     
-      setUpdHistory(updatedHistory);
-    }
-    setIsLoading(false)
-  };
-
-  fetchData();
-}, [skinHistory]);
-
-
-const fetchItemPrice  = async (singleUrl) => {
-  try {
-    const response = await fetch(`${itemUrl}/${encodeURIComponent(singleUrl)}`);
-    if (response.ok) {
-      const data = await response.json();
-      console.log(data)
-      return data.lowest_price;
-    } else {
-      console.error("Не удалось получить данные. Код ошибки:", response.status);
-      return 0;
-    }
-  } catch (error) {
-    console.error("Произошла ошибка при запросе данных:", error);
-    return 0;
-  }
-}
-
-  async function processHistoryItems(history){
-    const updatedHistory=[];
-    const changed = true;
-    for(let item of history){
-      if(item.changed===true){
-        console.log('цена предмета была изменена')
-        console.log(item)
-        
-      }else{
-        
-        let price =await fetchItemPrice(item.url);
-        const changed = true;
-        const updatedItem ={
-          ...item,
-          price,
-          changed,
-        }
-       
-        console.log(updatedItem)
-        console.log(updHistory)
-        updatedHistory.push(updatedItem)
-      };
-    }
-    return updatedHistory
-  }
-
-  
-  
-    
-   
-
-
   const extractProfileId = (profileLink) => {
     const parts = profileLink.split("/id/");
     return parts.length > 1 ? parts[1].split("/")[0] : null;
@@ -95,15 +24,22 @@ const fetchItemPrice  = async (singleUrl) => {
 
  
   const sellItem = (index) => {
-    const updatedSkinHistory = [...skinHistory];   
     
-    const updBalance=balance+ parseFloat(updatedSkinHistory[index].price)
-
-    const filteredSkinHistory = updatedSkinHistory.filter((skin, i) => i !== index);
-
-    dispatch(setBalance(updBalance));
-    setSkinHistory(filteredSkinHistory);
+    console.log(updHistory)
+    const updatedSkinHistory = [...updHistory];
+    
+    updatedSkinHistory[index] = { ...updatedSkinHistory[index], selled: true };
+    
    
+      let updBalance = balance + parseFloat(updatedSkinHistory[index].price);
+    
+  
+    dispatch(setBalance(updBalance));
+    
+    dispatch(setProfileHistory(updatedSkinHistory));
+    setUpdHistory(updatedSkinHistory)
+    setRevUpdHistory([...updHistory].reverse())
+    console.log(updHistory)
   };
 
   return (
@@ -128,9 +64,13 @@ const fetchItemPrice  = async (singleUrl) => {
           <div key={index} className={`profile_skin_card ${skin.rarity}`}>
             <div className="profile_skin_price_container">
               <div className="profile_skin_price price_RUB">{skin.price}</div>
-              <button className="profile_skin_sell_btn" onClick={()=>sellItem(index)}>
+             {skin.selled ? 
+             <BiSolidCoinStack className="money_icon"/>
+             :
+             <button className="profile_skin_sell_btn" onClick={()=>sellItem(index)}>
                 Продать
               </button>
+              }
             </div>
             <div className="profile_skin_img_container">
               <img src={skin.src} alt={skin.name} />

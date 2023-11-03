@@ -5,14 +5,14 @@ import { setBalance } from '../redux/actions'; // Импортируем дей�
  const Refill = ()=>{
     const [inputNum, setInputNum] = useState(0);
     const handleInputChange = (e) => {
-        const floatValue = parseInt(e.target.value)
+        const floatValue = parseFloat(e.target.value)
         setInputNum(floatValue);
       };
 
     const dispatch = useDispatch(); // Получаем диспетчер Redux
     const balance = useSelector((state) => state.balance); 
+    
     const updBalance = ()=>{
-        console.log('Значение введено в инпут:', inputNum);
         dispatch(setBalance(balance + inputNum));//обновляем баланс
     }
 
