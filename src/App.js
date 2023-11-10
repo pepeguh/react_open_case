@@ -13,10 +13,7 @@ import Profile from './components/profile';
 // import Slider from './components/slide';
 
 function App() {
-  const [skinHistory, setSkinHistory] = useState([]);
-  const addSkinToHistory = (skin) => {
-    setSkinHistory((prevHistory) => [skin, ...prevHistory]);
-  };
+  
   return (
    
     <Provider store={store} >
@@ -25,7 +22,7 @@ function App() {
     <Header/>
      <Routes>
       <Route path='/refill' element={<Refill/>}/>
-      <Route path='/profile' element={<Profile skinHistory={skinHistory} setSkinHistory={setSkinHistory}/>}/>
+      <Route path='/profile' element={<Profile />}/>
       <Route path="/home"  element={<Home/>}/>
       <Route path="*"  element={<Home/>}/>
       <Route path="/case/snakebite" element={<Snakebite />} />

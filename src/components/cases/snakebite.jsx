@@ -3,10 +3,12 @@ import Audio from '../../sound/openSound.mp3';
 import "../styles/openCase.css";
 import { useDispatch, useSelector } from 'react-redux'; // Импортируем хуки для Redux
 import { setBalance, setSnakebiteSkins, setProfileHistory } from '../../redux/actions'; // Импортируем действие
+import useGetUrls from '../hooks/useGetUrls';
+import getSingleUrl from '../hooks/useGetSingleUrl'
 
 const Snakebite = () => {
   //    LOGIC
-  const everyUrl = []
+  
   const chances = [
     12.19, 11.598, 11.418, 11.418, 11.418, 11.418, 11.418, 3.19, 3.19, 3.19,
     3.19, 3.19, 1.066, 1.066, 1.066, 0.448, 0.448,
@@ -19,13 +21,15 @@ const Snakebite = () => {
   const [isLoading, setIsLoading] = useState(false)
 
   const [pepePrice, setPepePrice] = useState(null)
+  const [exterior, setExterior] = useState('НЕТ ЗНАЧЕНИЯ')
 
   const dispatch = useDispatch(); // Получаем диспетчер Redux
   const balance = useSelector((state) => state.balance); 
   const skins = useSelector((state)=> state.snakebite_skins);
+
+  const everyUrl = useGetUrls(skins);
   
-  console.log(balance)
-  console.log(skins)
+  
 
 
   const [skinRev, setSkinRev] = useState([...skins].reverse());
@@ -37,12 +41,12 @@ const Snakebite = () => {
   const processHistory= useSelector((state)=>state.history_skins); 
 
   // ELSE 100 TRY
-const baseUrl = 'https://steamcommunity.com/market/priceoverview/?currency=5&appid=730&market_hash_name='
 const itemUrl = "http://localhost:3001/get-item-price";
 
 
  useEffect(()=>{
   fetchData()
+  console.log(everyUrl)
   console.log('сработал юс эффекс')
  },[])
 
@@ -76,22 +80,8 @@ const itemUrl = "http://localhost:3001/get-item-price";
   }
   
 
-const getUrlForEverySkin = ()=>{
-  let itemNameInside=''
-  skins.forEach((item)=>{
-    if(item.name.split(' ').length>1){
-      itemNameInside=item.name.split(' ').join('%20')
-      everyUrl.push(baseUrl+item.type+'%20%7C%20'+itemNameInside+'%20%28Factory%20New%29')
-    }else{
-      everyUrl.push(baseUrl+item.type+'%20%7C%20'+item.name+'%20%28Factory%20New%29')
-    }
-  })
-
-  console.log(everyUrl)
-}
-
 async function fetchPrices() {
-  getUrlForEverySkin()
+  
   const promises = everyUrl.map(async (url) => {
     try {
       const response = await fetch(`${itemUrl}/${encodeURIComponent(url)}`);
@@ -113,35 +103,36 @@ async function fetchPrices() {
 
   return results;
 }
- function getUrl(item){
-  let itemNameInside='';
-  let singleUrl='';
-  let itemExterior='';
-  console.log(item)
-  console.log(item.name)
-  if(item.name.split(' ').length>1){
-    itemNameInside=item.name.split(' ').join('%20')
-    if(item.exterior.split(' ').length>1){
-      itemExterior = item.exterior.split(' ').join('%20')
-    }else{
-      itemExterior=item.exterior;
-    }
-    singleUrl=(baseUrl+item.type+'%20%7C%20'+itemNameInside+'%20%28'+itemExterior+'%29')
-  }else{
-    if(item.exterior.split(' ').length>1){
-      itemExterior = item.exterior.split(' ').join('%20')
-    }else{
-      itemExterior=item.exterior;
-    }
-    singleUrl=(baseUrl+item.type+'%20%7C%20'+item.name+'%20%28'+itemExterior+'%29')
-  }
-  return(singleUrl)
-}
+
+//  function getUrl(item){
+//   let itemNameInside='';
+//   let singleUrl='';
+//   let itemExterior='';
+//   console.log(item)
+//   console.log(item.name)
+//   if(item.name.split(' ').length>1){
+//     itemNameInside=item.name.split(' ').join('%20')
+//     if(item.exterior.split(' ').length>1){
+//       itemExterior = item.exterior.split(' ').join('%20')
+//     }else{
+//       itemExterior=item.exterior;
+//     }
+//     singleUrl=(baseUrl+item.type+'%20%7C%20'+itemNameInside+'%20%28'+itemExterior+'%29')
+//   }else{
+//     if(item.exterior.split(' ').length>1){
+//       itemExterior = item.exterior.split(' ').join('%20')
+//     }else{
+//       itemExterior=item.exterior;
+//     }
+//     singleUrl=(baseUrl+item.type+'%20%7C%20'+item.name+'%20%28'+itemExterior+'%29')
+//   }
+//   return(singleUrl)
+// }
 
 
 async function getExactPrice(item){
-  
-  item.url= getUrl(item)
+  let mid=getSingleUrl(item)
+  item.url= mid;
  
 
   const fetchItemPrice  = async (singleUrl) => {
@@ -199,6 +190,8 @@ async function updatePrice (selectedPrise){
       ...selectedPrise,
      price:price1
     }
+    setExterior(selectedPrise.exterior)
+   
     let middlewareHistory = [...processHistory]
     middlewareHistory.push(selectedPrise)
     dispatch(setProfileHistory(middlewareHistory))
@@ -226,6 +219,7 @@ async function updatePrice (selectedPrise){
       updatedDrop.push(skins[rangeIndex1]);
      }
      updatedDrop[37]=selectedPrise;
+     
      setDrop(updatedDrop);
      console.log(updatedDrop)
      
@@ -327,8 +321,8 @@ async function updatePrice (selectedPrise){
           </div>}
           {showBtn &&
            <div className={`case_slide_drop ${drop[37].rarity} `}> 
-            <span className="case_slide_drop_title">{drop[37].type} | {drop[37].name}</span>
-            <span className="case_slide_drop_exterior">{drop[37].exterior}</span>
+            <span className="case_slide_drop_title">{drop[37].type} | {drop[37].name} </span>
+            <span className="case_slide_drop_exterior">{exterior}</span>
 
             {isLoading == false ?(
             <span className="price price_RUB case_slide_drop_price">{pepePrice}</span>
