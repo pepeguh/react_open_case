@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'; // Импортируе�
 import { setBalance, setSnakebiteSkins, setProfileHistory } from '../../redux/actions'; // Импортируем действие
 import useGetUrls from '../hooks/useGetUrls';
 import getSingleUrl from '../hooks/useGetSingleUrl'
+import fetchItemPrice from "../hooks/useFetchItemPrice";
 
 const Snakebite = () => {
   //    LOGIC
@@ -52,6 +53,7 @@ const itemUrl = "http://localhost:3001/get-item-price";
 
   async function fetchData() {
      workSkins = skins;
+     console.log(workSkins[0].price)
     if(workSkins[0].price===1){//если не прокает, тогда идет запрос на сервер
       const prices = await fetchPrices();
       tryPrices=prices; 
@@ -81,7 +83,7 @@ const itemUrl = "http://localhost:3001/get-item-price";
   
 
 async function fetchPrices() {
-  
+  console.log(everyUrl)
   const promises = everyUrl.map(async (url) => {
     try {
       const response = await fetch(`${itemUrl}/${encodeURIComponent(url)}`);
@@ -104,53 +106,10 @@ async function fetchPrices() {
   return results;
 }
 
-//  function getUrl(item){
-//   let itemNameInside='';
-//   let singleUrl='';
-//   let itemExterior='';
-//   console.log(item)
-//   console.log(item.name)
-//   if(item.name.split(' ').length>1){
-//     itemNameInside=item.name.split(' ').join('%20')
-//     if(item.exterior.split(' ').length>1){
-//       itemExterior = item.exterior.split(' ').join('%20')
-//     }else{
-//       itemExterior=item.exterior;
-//     }
-//     singleUrl=(baseUrl+item.type+'%20%7C%20'+itemNameInside+'%20%28'+itemExterior+'%29')
-//   }else{
-//     if(item.exterior.split(' ').length>1){
-//       itemExterior = item.exterior.split(' ').join('%20')
-//     }else{
-//       itemExterior=item.exterior;
-//     }
-//     singleUrl=(baseUrl+item.type+'%20%7C%20'+item.name+'%20%28'+itemExterior+'%29')
-//   }
-//   return(singleUrl)
-// }
-
-
 async function getExactPrice(item){
   let mid=getSingleUrl(item)
   item.url= mid;
- 
-
-  const fetchItemPrice  = async (singleUrl) => {
-    try {
-      const response = await fetch(`${itemUrl}/${encodeURIComponent(singleUrl)}`);
-      if (response.ok) {
-        const data = await response.json();
-        return data.lowest_price;
-      } else {
-        console.error("Не удалось получить данные. Код ошибки:", response.status);
-        return 0;
-      }
-    } catch (error) {
-      console.error("Произошла ошибка при запросе данных:", error);
-      return 0;
-    }
-  }
-  
+   
   let lowest_Price = await fetchItemPrice(item.url);
   
   if (typeof lowest_Price === 'string') {
@@ -263,7 +222,7 @@ async function updatePrice (selectedPrise){
   let randNum = Math.floor(Math.random() * 999) + 1;
   const generateRanges = (chances) => {
     if (!Array.isArray(chances) || chances.length === 0) {
-      throw new Error("invalid input. Please provide an array of chances");
+      throw new Error("invalid input");
     }
     const total = 999;
     const absoluteChances = chances.map((percentage) =>

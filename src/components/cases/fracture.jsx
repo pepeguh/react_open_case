@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'; // Импортируе�
 import { setBalance, setFractureSkins,setProfileHistory } from '../../redux/actions'; // Импортируем действие
 import useGetUrls from '../hooks/useGetUrls';
 import getSingleUrl from '../hooks/useGetSingleUrl'
+import fetchItemPrice from "../hooks/useFetchItemPrice";
 const Fracture = () => {
     //    LOGIC
    
@@ -80,7 +81,7 @@ const Fracture = () => {
 
   
   async function fetchPrices() {
-    
+    console.log(everyUrl)
     const promises = everyUrl.map(async (url) => {
       try {
         const response = await fetch(`${itemUrl}/${encodeURIComponent(url)}`);
@@ -107,24 +108,7 @@ const Fracture = () => {
   
   async function getExactPrice(item){
     let mid=getSingleUrl(item)
-    item.url= mid;
-  
-    const fetchItemPrice  = async (singleUrl) => {
-      try {
-        const response = await fetch(`${itemUrl}/${encodeURIComponent(singleUrl)}`);
-        if (response.ok) {
-          const data = await response.json();
-          return data.lowest_price;
-        } else {
-          console.error("Не удалось получить данные. Код ошибки:", response.status);
-          return 0;
-        }
-      } catch (error) {
-        console.error("Произошла ошибка при запросе данных:", error);
-        return 0;
-      }
-    }
-    
+    item.url= mid;   
     let lowest_Price = await fetchItemPrice(item.url);
     
     if (typeof lowest_Price === 'string') {
