@@ -1,9 +1,7 @@
-import { useState, useEffect } from "react";
-
-const useGetUrls = (skins) => {
+const GetUrls = (skins) => {
   const baseUrl ="https://steamcommunity.com/market/priceoverview/?currency=5&appid=730&market_hash_name=";
-  const [everyUrl, setEveryUrl] = useState([]);
-  useEffect(() => {
+  let everyUrl;
+  
     const fetchUrls = () => {
       const newEveryUrl = skins.map((item) => {
         let itemNameInside = "";
@@ -26,13 +24,13 @@ const useGetUrls = (skins) => {
           );
         }
       });
-      setEveryUrl(newEveryUrl);
+      everyUrl=newEveryUrl;
     };
 
     fetchUrls();
-  }, [skins]);
+
 
   return everyUrl;
 };
 
-export default useGetUrls;
+export default GetUrls;

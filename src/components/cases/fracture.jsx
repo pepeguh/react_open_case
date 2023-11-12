@@ -3,9 +3,10 @@ import Audio from '../../sound/openSound.mp3';
 import "../styles/openCase.css";
 import { useDispatch, useSelector } from 'react-redux'; // Импортируем хуки для Redux
 import { setBalance, setFractureSkins,setProfileHistory } from '../../redux/actions'; // Импортируем действие
-import useGetUrls from '../hooks/useGetUrls';
+import GetUrls from '../hooks/useGetUrls';
 import getSingleUrl from '../hooks/useGetSingleUrl'
 import fetchItemPrice from "../hooks/useFetchItemPrice";
+import fetchPrices from "../hooks/fetchPrices";
 const Fracture = () => {
     //    LOGIC
    
@@ -26,7 +27,7 @@ const Fracture = () => {
     const balance = useSelector((state) => state.balance); 
     const skins = useSelector((state)=> state.fracture_skins);
     
-  const everyUrl = useGetUrls(skins);
+  let everyUrl;
     console.log(balance)
     console.log(skins)
   
@@ -50,9 +51,10 @@ const Fracture = () => {
    },[])
   
     async function fetchData() {
+      everyUrl = GetUrls(skins);
        workSkins = skins;
       if(workSkins[0].price===1){//если не прокает, тогда идет запрос на сервер
-        const prices = await fetchPrices();
+        const prices = await fetchPrices(everyUrl);
         tryPrices=prices; 
         if (tryPrices[0]===undefined||tryPrices[1]===undefined){
           return;
@@ -77,34 +79,7 @@ const Fracture = () => {
     console.log(skins)
     console.log(tryPrices)
     }
-    
-
-  
-  async function fetchPrices() {
-    console.log(everyUrl)
-    const promises = everyUrl.map(async (url) => {
-      try {
-        const response = await fetch(`${itemUrl}/${encodeURIComponent(url)}`);
-        if (response.ok) {
-          const data = await response.json();
-          return data.lowest_price;
-        } else {
-          console.error("Не удалось получить данные. Код ошибки:", response.status);
-          return;
-        }
-      } catch (error) {
-        console.error("Произошла ошибка при запросе данных:", error);
-        
-        return;
-      }
-    });
-  
-    const results = await Promise.all(promises);
-  
-    return results;
-  }
- 
-  
+     
   
   async function getExactPrice(item){
     let mid=getSingleUrl(item)
