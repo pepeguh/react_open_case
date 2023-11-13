@@ -3,35 +3,26 @@ import Audio from '../../sound/openSound.mp3';
 import "../styles/openCase.css";
 import { useDispatch, useSelector } from 'react-redux'; // Импортируем хуки для Redux
 import { setBalance, setFractureSkins,setProfileHistory } from '../../redux/actions'; // Импортируем действие
-import GetUrls from '../hooks/useGetUrls';
 import getSingleUrl from '../hooks/useGetSingleUrl'
 import fetchItemPrice from "../hooks/useFetchItemPrice";
-import fetchPrices from "../hooks/fetchPrices";
+import fetchData from "../hooks/fetchData";
+
 const Fracture = () => {
     //    LOGIC
-   
-    const chances = [
+       const chances = [
       12.19, 11.598, 11.418, 11.418, 11.418, 11.418, 11.418, 3.19, 3.19, 3.19,
       3.19, 3.19, 1.066, 1.066, 1.066, 0.448, 0.448,
     ];
-    
     const [showBtn, setShowBtn] = useState(false);
     const [isImgVisible, setImgVisible] = useState(true);
     const [prise, setPrise] = useState(null);
     const [drop, setDrop] = useState([]);
     const [isLoading, setIsLoading] = useState(false)
-
     const [pepePrice, setPepePrice] = useState(null)
     const [exterior, setExterior] = useState('НЕТ ЗНАЧЕНИЯ')
     const dispatch = useDispatch(); // Получаем диспетчер Redux
     const balance = useSelector((state) => state.balance); 
     const skins = useSelector((state)=> state.fracture_skins);
-    
-  let everyUrl;
-    console.log(balance)
-    console.log(skins)
-  
-  
     const [skinRev, setSkinRev] = useState([...skins].reverse());
     let tryPrices=[];
     const casePrice = 139;
@@ -40,45 +31,21 @@ const Fracture = () => {
     
     const processHistory= useSelector((state)=>state.history_skins); 
 
-  
-    // ELSE 100 TRY
-  const itemUrl = "http://localhost:3001/get-item-price";
-  
-  
    useEffect(()=>{
-    fetchData()
+    writeData(skins)
     console.log('сработал юс эффекс')
    },[])
   
-    async function fetchData() {
-      everyUrl = GetUrls(skins);
-       workSkins = skins;
-      if(workSkins[0].price===1){//если не прокает, тогда идет запрос на сервер
-        const prices = await fetchPrices(everyUrl);
-        tryPrices=prices; 
-        if (tryPrices[0]===undefined||tryPrices[1]===undefined){
-          return;
-        }else{
-          for (let i = 0; i < workSkins.length; i++) {
-            workSkins = workSkins.map((skin, i) => {
-              return {
-                ...skin,
-                price: tryPrices[i]
-              };
-            });
-          }
-          workSkins.forEach(skin => {
-          skin.price=skin.price.slice(0, -5)
-         });
-          setSkinRev([...workSkins].reverse())  
-          dispatch(setFractureSkins(workSkins));
-  
-        }
-      }
-      
-    console.log(skins)
-    console.log(tryPrices)
+   async function writeData(skins) {
+    workSkins = await fetchData(skins)
+    console.log(workSkins)
+    if(workSkins==undefined||workSkins==undefined){
+     return
+    }else{
+      setSkinRev([...workSkins].reverse())  
+      dispatch(setFractureSkins(workSkins));
     }
+}
      
   
   async function getExactPrice(item){
