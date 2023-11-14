@@ -3,9 +3,8 @@ import Audio from '../../sound/openSound.mp3';
 import "../styles/openCase.css";
 import { useDispatch, useSelector } from 'react-redux'; // Импортируем хуки для Redux
 import { setBalance, setSnakebiteSkins, setProfileHistory } from '../../redux/actions'; // Импортируем действие
-import getSingleUrl from '../hooks/useGetSingleUrl'
-import fetchItemPrice from "../hooks/useFetchItemPrice";
 import fetchData from "../hooks/fetchData";
+import getSelectedPrice from "../hooks/updatePrice";
 const Snakebite = () => {
   //    LOGIC
     const chances = [
@@ -37,7 +36,7 @@ const Snakebite = () => {
 
   async function writeData(skins) {
        workSkins = await fetchData(skins)
-       console.log(workSkins)
+       
        if(workSkins==undefined||workSkins==undefined){
         return
        }else{
@@ -47,57 +46,15 @@ const Snakebite = () => {
   }
   
 
-async function getExactPrice(item){
-  let mid=getSingleUrl(item)
-  item.url= mid;
-   
-  let lowest_Price = await fetchItemPrice(item.url);
-  
-  if (typeof lowest_Price === 'string') {
-    lowest_Price = lowest_Price.slice(0, -5);
-  } else {
-    lowest_Price = 0;
-  }
-  
-  return lowest_Price
-}
-
-const getExterior = (pattern)=>{
-  let exterior = 'Factory New';
-  if (pattern <= 0.07) {
-    exterior = 'Factory New';
-  } else if (pattern > 0.07 && pattern <= 0.15) {
-    exterior = 'Minimal Wear';
-  } else if (pattern > 0.15 && pattern <= 0.38) {
-    exterior = 'Field-Tested';
-  } else if (pattern > 0.38 && pattern <= 0.45) {
-    exterior = 'Well-Worn';
-  } else if (pattern > 0.45) {
-    exterior = 'Battle-Scarred';
-  }
-  return exterior
-}
 async function updatePrice (selectedPrise){
-  setIsLoading(true)
-    const prisePattern = getExterior(Math.random());
-    selectedPrise={
-      ...selectedPrise,
-      exterior:prisePattern
-    }
-    const price1 = await getExactPrice(selectedPrise);
-
-    selectedPrise={
-      ...selectedPrise,
-     price:price1
-    }
-    setExterior(selectedPrise.exterior)
-   
+    setIsLoading(true)
+    let middleSelectedPrice=await getSelectedPrice(selectedPrise)
+    setExterior(middleSelectedPrice.exterior)
     let middlewareHistory = [...processHistory]
-    middlewareHistory.push(selectedPrise)
+    middlewareHistory.push(middleSelectedPrice)
     dispatch(setProfileHistory(middlewareHistory))
-    setPepePrice(price1)
-    return price1
-  }
+    setPepePrice(middleSelectedPrice.price)
+    }
   
 
    const openCase=  ()=> {

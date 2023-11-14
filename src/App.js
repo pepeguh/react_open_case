@@ -1,16 +1,15 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter, Route,  Routes } from 'react-router-dom';
 import '../src/App.css'
 import Header from './components/header';
 import Home from './components/home';
 import Snakebite from './components/cases/snakebite'
 import Fracture from './components/cases/fracture'
-
 import Refill from './components/refill';
 import { Provider } from 'react-redux'; 
 import store from './redux/store';
 import Profile from './components/profile';
-// import Slider from './components/slide';
+
 
 function App() {
   
@@ -28,8 +27,7 @@ function App() {
       <Route path="/case/snakebite" element={<Snakebite />} />
       <Route path='/case/fracture' element={<Fracture />}/>
      </Routes>
-     {/* <Slider images={images}/> */}
-    </div>
+     </div>
     </BrowserRouter>
     </Provider>
      
