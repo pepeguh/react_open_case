@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux'; // Импортируе�
 import { setBalance, setSnakebiteSkins, setProfileHistory } from '../../redux/actions'; // Импортируем действие
 import fetchData from "../hooks/fetchData";
 import getSelectedPrice from "../hooks/updatePrice";
+import findRange from "../hooks/findRange";
 const Snakebite = () => {
   //    LOGIC
     const chances = [
@@ -37,7 +38,7 @@ const Snakebite = () => {
   async function writeData(skins) {
        workSkins = await fetchData(skins)
        
-       if(workSkins==undefined||workSkins==undefined){
+       if(workSkins==undefined){
         return
        }else{
          setSkinRev([...workSkins].reverse())  
@@ -54,14 +55,17 @@ async function updatePrice (selectedPrise){
     middlewareHistory.push(middleSelectedPrice)
     dispatch(setProfileHistory(middlewareHistory))
     setPepePrice(middleSelectedPrice.price)
-    }
+  }
   
-
-   const openCase=  ()=> {
+  
+  let randNum = Math.floor(Math.random() * 999) + 1;
+   const openCase=  () => {
     //главный скин
     setImgVisible(!isImgVisible);
-    const ranges = generateRanges(chances);
-    const rangeIndex = findRangeIndex(ranges, randNum);
+
+    const rangeIndex = findRange(chances,randNum);
+    // const rangeIndex = findRange(chances);
+    
     const selectedPrise = skins[rangeIndex];
      setPrise(selectedPrise);
      updatePrice(selectedPrise)
@@ -70,19 +74,16 @@ async function updatePrice (selectedPrise){
     // остальные 39
      const updatedDrop = [];
      for (let i =0; i<40; i++){
-      let randNum1 = Math.floor(Math.random() * 999) + 1;
-      let ranges1= generateRanges(chances);
-      let rangeIndex1=findRangeIndex(ranges1, randNum1);
+       let randNum1 = Math.floor(Math.random() * 999) + 1;
+      let rangeIndex1= findRange(chances, randNum1);
+      
       updatedDrop.push(skins[rangeIndex1]);
      }
      updatedDrop[37]=selectedPrise;
      
      setDrop(updatedDrop);
      console.log(updatedDrop)
-     
-
-   
-    console.log(`Вам выпал скин - ${selectedPrise.type} | ${selectedPrise.name} `);
+     console.log(`Вам выпал скин - ${selectedPrise.type} | ${selectedPrise.name} `);
     console.log(tryPrices)
     if(balance<casePrice){
       canOpen=false;
@@ -117,44 +118,7 @@ async function updatePrice (selectedPrise){
     setImgVisible(!isImgVisible)
   }
 
-  let randNum = Math.floor(Math.random() * 999) + 1;
-  const generateRanges = (chances) => {
-    if (!Array.isArray(chances) || chances.length === 0) {
-      throw new Error("invalid input");
-    }
-    const total = 999;
-    const absoluteChances = chances.map((percentage) =>
-      Math.floor((percentage / 100) * total)
-    );
-    const ranges = [];
-    let start = 1;
-    for (const absoluteChance of absoluteChances) {
-      const end = start + absoluteChance - 1;
-      ranges.push({ start, end });
-      start = end + 1;
-    }
-    return ranges;
-  };
 
-  const matchNumberToChance = (randNum, ranges) => {
-    for (const range of ranges) {
-      if (randNum >= range.start && randNum <= range.end) {
-        return range;
-      }
-    }
-    return null;
-  };
-  const findRangeIndex = (ranges, number) => {
-    for (let i = 0; i < ranges.length; i++) {
-      const range = ranges[i];
-      if (number >= range.start && number <= range.end) {
-        return i;
-      }
-    }
-    return -1; // Возвращает -1, если диапазон не найден
-  };
- 
- 
   // РЕНДЕР
   return (
     <div className="main_div">
