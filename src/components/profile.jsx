@@ -12,8 +12,8 @@ const Profile = () => {
   const itemUrl = "http://localhost:3001/get-item-price";
   const [isLoading, setIsLoading] = useState(false);
   const newSkins = useSelector((state)=>state.history_skins) 
-  const [updHistory, setUpdHistory] = useState([...newSkins].reverse());
-  const [revUpdHistory, setRevUpdHistory] = useState([...updHistory].reverse());
+  const [updHistory, setUpdHistory] = useState([...newSkins]);
+  const [revUpdHistory, setRevUpdHistory] = useState([...updHistory]);
   let workSkins;
   
   const extractProfileId = (profileLink) => {
@@ -38,7 +38,7 @@ const Profile = () => {
     
     dispatch(setProfileHistory(updatedSkinHistory));
     setUpdHistory(updatedSkinHistory)
-    setRevUpdHistory([...updHistory].reverse())
+    setRevUpdHistory([...updHistory])
     console.log(updHistory)
   };
 

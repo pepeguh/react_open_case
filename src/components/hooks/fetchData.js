@@ -23,9 +23,6 @@ async function fetchData(skins) {
         workSkins.forEach(skin => {
         skin.price=skin.price.slice(0, -5)
        });
-        // setSkinRev([...workSkins].reverse())  
-        // dispatch(setSnakebiteSkins(workSkins));
-
       }
     }
     console.log(skins)
