@@ -25,21 +25,24 @@ const Profile = () => {
  
   const sellItem = (index) => {
     
-    console.log(updHistory)
+   
     const updatedSkinHistory = [...updHistory];
     
     updatedSkinHistory[index] = { ...updatedSkinHistory[index], selled: true };
     
-   
-      let updBalance = balance + parseFloat(updatedSkinHistory[index].price);
-    
+    console.log('balance:', balance);
+    console.log('price:', updatedSkinHistory[index].price);
+    let priceString = updatedSkinHistory[index].price.replace(',', '.');
+    let updBalance = (parseFloat(balance) + parseFloat(priceString)).toFixed(2);
+    console.log(updBalance)
   
-    dispatch(setBalance(updBalance));
+    dispatch(setBalance(parseFloat(updBalance)));
     
     dispatch(setProfileHistory(updatedSkinHistory));
     setUpdHistory(updatedSkinHistory)
     setRevUpdHistory([...updHistory])
-    console.log(updHistory)
+    
+    
   };
 
   return (

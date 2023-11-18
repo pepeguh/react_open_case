@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from 'react-redux'; // Импортируе�
 import { setBalance } from '../redux/actions'; // Импортируем действие
  const Refill = ()=>{
     const [inputNum, setInputNum] = useState(0);
+    
     const handleInputChange = (e) => {
         const floatValue = parseFloat(e.target.value)
         setInputNum(floatValue);

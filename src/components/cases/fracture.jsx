@@ -27,11 +27,12 @@ const Fracture = () => {
   const balance = useSelector((state) => state.balance);
   const skins = useSelector((state) => state.fracture_skins);
   const [skinRev, setSkinRev] = useState([...skins].reverse());
-  let tryPrices = [];
+
+  
   const casePrice = 139;
   let workSkins;
   let canOpen = balance >= casePrice;
-
+  let notEnough = (balance-casePrice)*-1;
   const processHistory = useSelector((state) => state.history_skins);
 
   useEffect(() => {
@@ -82,7 +83,8 @@ const Fracture = () => {
     console.log(
       `Вам выпал скин - ${selectedPrise.type} | ${selectedPrise.name} за ${selectedPrise.price}р(базовая цена, цены могут варьироваться) `
     );
-    console.log(tryPrices);
+   
+
     if (balance < casePrice) {
       canOpen = false;
     }
@@ -181,12 +183,12 @@ const Fracture = () => {
         <div className="case_actions_div">
           {!canOpen && isImgVisible && (
             <button className="case_actions cantOpen">{`${casePrice}р (Не хватает ${
-              casePrice - balance
+              notEnough.toFixed(2)
             }р)`}</button>
           )}
           {!canOpen && showBtn && (
             <button className="case_actions cantOpen">{`${casePrice}р (Не хватает ${
-              casePrice - balance
+              notEnough.toFixed(2)
             }р)`}</button>
           )}
           {isImgVisible && canOpen && (

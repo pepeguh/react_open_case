@@ -22,7 +22,7 @@ const Header = () => {
       </div>
       <div className="header_right_side">
         <Link to="/refill" className="balance_link">
-          <div className="balance_div price_RUB">{balance}</div>
+          <div className="balance_div price_RUB">{balance.toFixed(2)}</div>
         </Link>
         <Link to="/profile">
           <img

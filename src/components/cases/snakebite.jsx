@@ -28,11 +28,11 @@ const Snakebite = () => {
   const balance = useSelector((state) => state.balance);
   const processHistory = useSelector((state) => state.history_skins);
 
-  let tryPrices = [];
+ 
   const casePrice = 139;
   let workSkins;
   let canOpen = balance >= casePrice;
-
+  let notEnough = (balance-casePrice)*-1;
   useEffect(() => {
     writeData(skins);
     console.log("сработал юс эффекс");
@@ -180,12 +180,12 @@ const Snakebite = () => {
         <div className="case_actions_div">
           {!canOpen && isImgVisible && (
             <button className="case_actions cantOpen">{`${casePrice}р (Не хватает ${
-              casePrice - balance
+              notEnough.toFixed(2)
             }р)`}</button>
           )}
           {!canOpen && showBtn && (
             <button className="case_actions cantOpen">{`${casePrice}р (Не хватает ${
-              casePrice - balance
+              notEnough.toFixed(2)
             }р)`}</button>
           )}
           {isImgVisible && canOpen && (
