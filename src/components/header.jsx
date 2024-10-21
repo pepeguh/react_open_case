@@ -1,13 +1,13 @@
 import React from "react";
 import "./styles/header.css";
 import "./styles/case.css";
-import {  useSelector } from "react-redux"; // Импортируем хуки для Redux
+import {  useSelector } from "react-redux"; 
 
 import { Link } from "react-router-dom";
 
 const Header = () => {
   
-  const balance = useSelector((state) => state.balance); // Получаем баланс из состояния Redux
+  const balance = useSelector((state) => state.balance); 
 
   return (
     <div className="header_main_div">
