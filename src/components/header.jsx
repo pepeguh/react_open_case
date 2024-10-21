@@ -12,6 +12,7 @@ const Header = () => {
   return (
     <div className="header_main_div">
       <div className="header_left_side">
+        <h1>Цены не подгружаются, api стима изменён</h1>
         <Link to="/home">
           <img
             src="https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/433340/9ccd96a53fb7ca401f232b4322fb14df2b346669.png"
