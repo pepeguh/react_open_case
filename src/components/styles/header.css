@@ -11,6 +11,15 @@
     display: flex;
     justify-content: space-between;
 }
+.header_left_side{
+    display: flex;
+    flex-direction: row-reverse;
+    align-items: center;
+}
+.header_left_side p{
+    color: #cc8d63;
+    border-bottom: 1px solid salmon;
+}
 
 .header_right_side {
     height: 100%;

@@ -1,12 +1,12 @@
 import React, { useState, useEffect, useRef } from "react";
 import Audio from "../../sound/openSound.mp3";
 import "../styles/openCase.css";
-import { useDispatch, useSelector } from "react-redux"; // Импортируем хуки для Redux
+import { useDispatch, useSelector } from "react-redux"; 
 import {
   setBalance,
   setFractureSkins,
   setProfileHistory,
-} from "../../redux/actions"; // Импортируем действие
+} from "../../redux/actions"; 
 import fetchData from "../hooks/fetchData";
 import getSelectedPrice from "../hooks/updatePrice";
 import findRange from "../hooks/findRange";
@@ -23,7 +23,7 @@ const Fracture = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [pepePrice, setPepePrice] = useState(null);
   const [exterior, setExterior] = useState("НЕТ ЗНАЧЕНИЯ");
-  const dispatch = useDispatch(); // Получаем диспетчер Redux
+  const dispatch = useDispatch(); 
   const balance = useSelector((state) => state.balance);
   const skins = useSelector((state) => state.fracture_skins);
   const [skinRev, setSkinRev] = useState([...skins].reverse());

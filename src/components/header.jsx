@@ -1,18 +1,18 @@
 import React from "react";
 import "./styles/header.css";
 import "./styles/case.css";
-import {  useSelector } from "react-redux"; 
+import {  useSelector } from "react-redux"; // Импортируем хуки для Redux
 
 import { Link } from "react-router-dom";
 
 const Header = () => {
   
-  const balance = useSelector((state) => state.balance); 
+  const balance = useSelector((state) => state.balance); // Получаем баланс из состояния Redux
 
   return (
     <div className="header_main_div">
       <div className="header_left_side">
-        <h1>Цены не подгружаются, api стима изменён</h1>
+      <p>Цены не подгружаются, api стима изменён!!</p>
         <Link to="/home">
           <img
             src="https://cdn.akamai.steamstatic.com/steamcommunity/public/images/items/433340/9ccd96a53fb7ca401f232b4322fb14df2b346669.png"
